@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
@@ -24,32 +25,8 @@ class UserController extends Controller
         return response($user);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users',
-            ],
-            'password' => [
-                'required',
-                'string',
-                'min:8',             // Minimo 8 caratteri
-                'regex:/[a-z]/',     // Deve contenere almeno una lettera minuscola
-                'regex:/[A-Z]/',     // Deve contenere almeno una lettera maiuscola
-                'regex:/[0-9]/',     // Deve contenere almeno un numero
-                'regex:/[@$!%*#?&]/' // Deve contenere almeno un carattere speciale
-            ]
-        ]);
-
         return User::create($request->all());
     }
 

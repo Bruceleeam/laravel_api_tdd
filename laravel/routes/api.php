@@ -4,17 +4,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::get('/users', [UserController::class, 'index'])
-->name('users.index');
+Route::apiResource("users", UserController::class);
 
-Route::get('/users/{user}', [UserController::class, 'show'])
-->name('users.show');
+// Route::get('/users', [UserController::class, 'index'])
+// ->name('users.index');
 
-Route::post('/users', [UserController::class, 'store'])
-    ->name('users.store');
+// Route::get('/users/{user}', [UserController::class, 'show'])
+// ->name('users.show');
 
-Route::delete('/users/{user}', [UserController::class, 'destroy'])
-    ->name('users.destroy');
+// Route::post('/users', [UserController::class, 'store'])
+//     ->name('users.store');
 
-Route::patch('/users/{user}', [UserController::class, 'update'])
-    ->name('users.update');
+// Route::delete('/users/{user}', [UserController::class, 'destroy'])
+//     ->name('users.destroy');
+
+// Route::patch('/users/{user}', [UserController::class, 'update'])
+//     ->name('users.update');

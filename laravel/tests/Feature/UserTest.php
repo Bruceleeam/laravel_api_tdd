@@ -16,7 +16,7 @@ class UserTest extends TestCase
     public function setUp():void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->user = $this->createUser(['name' => 'Test']);
     }
 
     /**
@@ -85,9 +85,9 @@ class UserTest extends TestCase
     }
 
     public function test_while_storing_user_fields_validation()
-    {
-
+    { 
         $this->withExceptionHandling();
+
         $this->postJson(route('users.store'))
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['name', 'email', 'password']);
