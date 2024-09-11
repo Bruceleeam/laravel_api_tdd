@@ -34,5 +34,20 @@ services:
     networks:
       - laravel-net
 
+   # PhpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: laravel-pma
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - laravel-net
+
 networks:
   laravel-net:
