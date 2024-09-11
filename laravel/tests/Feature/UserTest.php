@@ -11,8 +11,6 @@ class UserTest extends TestCase
 {
    use RefreshDatabase;
 
-   private $user;
-
     public function setUp():void
     {
         parent::setUp();
@@ -35,7 +33,7 @@ class UserTest extends TestCase
         $response = $this->getJson(route('users.index'));
 
         //assertion / predict
-        $this->assertEquals(1, count($response->json()));
+        $this->assertCount(1, $response->json());
 
     }
 
@@ -87,7 +85,7 @@ class UserTest extends TestCase
     }
 
     public function test_while_storing_user_fields_validation()
-    { 
+    {
         $this->withExceptionHandling();
 
         $this->postJson(route('users.store'))
