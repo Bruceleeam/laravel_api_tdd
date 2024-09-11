@@ -16,7 +16,13 @@ class UserTest extends TestCase
     public function setUp():void
     {
         parent::setUp();
-        $this->user = $this->createUser(['name' => 'Test']);
+        $this->user = $this->createUser(
+            [
+                'name' => 'Test',
+                'email' => 'testd@example.com',
+                'password' => 'password'
+            ]
+        );
     }
 
     /**
@@ -24,8 +30,6 @@ class UserTest extends TestCase
      */
     public function test_fetch_users(): void
     {
-        //preparation / prepare
-
 
         //action / perform
         $response = $this->getJson(route('users.index'));
@@ -37,8 +41,6 @@ class UserTest extends TestCase
 
     public function test_show_user()
     {
-        // preparation / prepare
-
         // action / perform
         $response = $this->getJson(route('users.show', $this->user->id))
                     ->assertOk()
@@ -48,7 +50,7 @@ class UserTest extends TestCase
         $this->assertEquals($response['name'], $this->user->name);
     }
 
-    public function test_store_user()
+    public function test_store_new_user()
     {
         // preparation / prepare
         $user = User::factory()->make();
