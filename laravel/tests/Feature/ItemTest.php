@@ -28,7 +28,7 @@ class ItemTest extends TestCase
     {
 
         // action
-        $response = $this->getJson(route('item.index'))->assertOk()->json();
+        $response = $this->getJson(route('items.index'))->assertOk()->json();
 
         //assertion
         $this->assertCount(1, $response);

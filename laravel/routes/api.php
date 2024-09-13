@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
-Route::apiResource("items", ItemController::class);
+ Route::get('/items', [ItemController::class, 'index'])
+ ->name('items.index');
 
 // Route::get('/users', [UserController::class, 'index'])
 // ->name('users.index');
