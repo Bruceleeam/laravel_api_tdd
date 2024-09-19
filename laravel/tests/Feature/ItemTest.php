@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -11,14 +12,20 @@ class ItemTest extends TestCase
 {
     use RefreshDatabase;
 
+    private $user;
     private $item;
 
     public function setUp():void
     {
         parent::setUp();
+        $this->user = $this->createUser(
+            [
+                'name' => 'Test_user',
+            ]
+        );
         $this->item = $this->createItem(
             [
-                'title' => 'Test',
+                'title' => 'Test_item',
             ]
         );
     }
@@ -26,16 +33,16 @@ class ItemTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_fetch_items_of_users(): void
+    public function test_fetch_all_items_of_users(): void
     {
 
         // action
-        $response = $this->getJson(route('items.index'))->assertOk()->json();
+        $response = $this->getJson(route('items.index', $this->user->id))->assertOk()->json();
 
         //assertion
         $this->assertCount(1, $response);
 
-        $this->assertEquals("Test",$response[0]['title']);
+        $this->assertEquals("Test_item",$response[0]['title']);
     }
 
     /**
@@ -46,15 +53,15 @@ class ItemTest extends TestCase
     {
         $item = Item::factory()->make();
 
-        $this->postJson(route('items.store'), ['title' => $item->title])
+        $this->postJson(route('items.store', $this->user->id), ['title' => $item->title])
         ->assertCreated();
 
-        $this->assertDatabaseHas('items', ['title' => 'Test']);
+        $this->assertDatabaseHas('items', ['title' => 'Test_item']);
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @return void
      */
     public function test_delete_item_from_database()
@@ -64,4 +71,6 @@ class ItemTest extends TestCase
 
         $this->assertDatabaseMissing('items', ['title' => $this->item->title]);
     }
+
+
 }
