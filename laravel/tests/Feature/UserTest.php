@@ -11,6 +11,8 @@ class UserTest extends TestCase
 {
    use RefreshDatabase;
 
+   private $user;
+
     public function setUp():void
     {
         parent::setUp();

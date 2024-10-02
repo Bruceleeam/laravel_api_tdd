@@ -7,7 +7,9 @@ use App\Http\Controllers\ItemController;
 
 Route::apiResource("users", UserController::class);
 
-Route::apiResource('users/{user}/items', ItemController::class);
+Route::apiResource("users.items", ItemController::class)
+->except('show')
+->shallow();
 
 // ITEMS
 // Route::get('/items', [ItemController::class, 'index'])

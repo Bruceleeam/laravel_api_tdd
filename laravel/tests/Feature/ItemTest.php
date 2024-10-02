@@ -17,32 +17,25 @@ class ItemTest extends TestCase
 
     public function setUp():void
     {
-        parent::setUp();
-        $this->user = $this->createUser(
-            [
-                'name' => 'Test_user',
-            ]
-        );
-        $this->item = $this->createItem(
-            [
-                'title' => 'Test_item',
-            ]
-        );
+        parent::setUp();        
     }
 
     /**
      * A basic feature test example.
      */
-    public function test_fetch_all_items_of_users(): void
+    public function test_fetch_all_items_of_a_user(): void
     {
-
+        $user = $this->createUser();
+        $item = $this->createItem(args: ['user_id' => $user->id]);
+        
         // action
-        $response = $this->getJson(route('items.index', $this->user->id))->assertOk()->json();
+        $response = $this->getJson(route('users.items.index', $user->id))->assertOk()->json();
 
         //assertion
         $this->assertCount(1, $response);
 
-        $this->assertEquals("Test_item",$response[0]['title']);
+        $this->assertEquals($item->title,$response[0]['title']);
+        $this->assertEquals($response[0]['user_id'], $user->id);
     }
 
     /**
@@ -51,12 +44,16 @@ class ItemTest extends TestCase
      */
     public function test_store_item_for_a_user()
     {
+        $user = $this->createUser();
         $item = Item::factory()->make();
 
-        $this->postJson(route('items.store', $this->user->id), ['title' => $item->title])
+        $this->postJson(route('users.items.store', $user->id), ['title' => $item->title])
         ->assertCreated();
 
-        $this->assertDatabaseHas('items', ['title' => 'Test_item']);
+        $this->assertDatabaseHas('items', [
+            'title' => $item->title, 
+            'user_id' => $user->id 
+        ]);
     }
 
     /**
@@ -66,11 +63,21 @@ class ItemTest extends TestCase
      */
     public function test_delete_item_from_database()
     {
-        $this->deleteJson(route('items.destroy', $this->item->id))
+        $item = $this->createItem();
+        $this->deleteJson(route('items.destroy', $item->id))
         ->assertNoContent();
 
-        $this->assertDatabaseMissing('items', ['title' => $this->item->title]);
+        $this->assertDatabaseMissing('items', ['title' => $item->title]);
     }
 
+    public function test_update_a_item_of_a_user()
+    {
+        $item = $this->createItem();
+
+        $this->patchJson(route('items.update', $item->id), ['title' => 'updated title'])
+        ->assertOk();
+
+        $this->assertDatabaseHas('items', ['title' => 'updated title']);
+    }
 
 }
