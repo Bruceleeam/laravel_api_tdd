@@ -27,19 +27,11 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        return User::create($request->all());
+        return User::create(attributes: $request->all());
     }
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ]
-        ]);
-
         $user->update($request->all());
         return response($user);
     }

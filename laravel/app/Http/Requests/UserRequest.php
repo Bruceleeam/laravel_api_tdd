@@ -38,10 +38,10 @@ class UserRequest extends FormRequest
                 'required',
                 'string',
                 'min:8',             // Minimo 8 caratteri
-                'regex:/[a-z]/',     // Deve contenere almeno una lettera minuscola
-                'regex:/[A-Z]/',     // Deve contenere almeno una lettera maiuscola
-                'regex:/[0-9]/',     // Deve contenere almeno un numero
-                'regex:/[@$!%*#?&]/' // Deve contenere almeno un carattere speciale
+                // 'regex:/[a-z]/',     // Deve contenere almeno una lettera minuscola
+                // 'regex:/[A-Z]/',     // Deve contenere almeno una lettera maiuscola
+                // 'regex:/[0-9]/',     // Deve contenere almeno un numero
+                // 'regex:/[@$!%*#?&]/' // Deve contenere almeno un carattere speciale
             ]
         ];
     }

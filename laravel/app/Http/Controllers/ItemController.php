@@ -11,15 +11,14 @@ class ItemController extends Controller
 {
     public function index(User $user)
     {
-        $items = Item::where(['user_id' => $user->id])->get();
+        $item = $user->items;
 
-        return $items;
+        return response($item);
     }
 
     public function store(Request $request, User $user)
     {
-        $request['user_id'] = $user->id;
-        return Item::create($request->all());
+        return $user->items()->create($request->all());
     }
 
     public function destroy(Item $item)
@@ -32,7 +31,6 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         $item->update($request->all());
-
         return response($item);
     }
 }
